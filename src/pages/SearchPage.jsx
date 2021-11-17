@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import * as BooksAPI from "../api/BooksAPI";
 import BookList from "../components/BookList";
 
-export const SearchPage = () => {
+export const SearchPage = ({ onChangeShelf }) => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
@@ -14,7 +14,9 @@ export const SearchPage = () => {
         setSearchedBooks([]);
         return;
       }
-      setSearchedBooks(books);
+
+      const filteredBooks = books.filter((book) => book.imageLinks);
+      setSearchedBooks(filteredBooks);
     });
   };
   return (
@@ -31,7 +33,9 @@ export const SearchPage = () => {
         />
       </div>
       <div className="search-books-input-wrapper">
-        {searchedBooks.length > 0 && <BookList books={searchedBooks} />}
+        {searchedBooks.length > 0 && (
+          <BookList books={searchedBooks} onChangeShelf={onChangeShelf} />
+        )}
 
         {/*
               NOTES: The search from BooksAPI is limited to a particular set of search terms.

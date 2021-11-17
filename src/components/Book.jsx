@@ -1,6 +1,9 @@
 import React from "react";
 
-const Book = ({ book }) => {
+const Book = ({ book, onChangeShelf }) => {
+  const onChange = (e) => {
+    onChangeShelf(book, e.target.value);
+  };
   return (
     <div className="book">
       <div className="book-top">
@@ -9,13 +12,13 @@ const Book = ({ book }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: book.imageLinks
-              ? `url("${book.imageLinks.thumbnail}")`
-              : null,
+            backgroundImage: `url("${
+              book.imageLinks.thumbnail || book.imageLinks.smallThumbnail
+            }")`,
           }}
         />
         <div className="book-shelf-changer">
-          <select>
+          <select onChange={onChange} value={book.shelf || "none"}>
             <option value="move" disabled>
               Move to...
             </option>

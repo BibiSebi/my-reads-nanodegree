@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import BookList from "../components/BookList";
-export const ShelvesPage = ({ shelves, books }) => {
+export const ShelvesPage = ({ shelves, books, onChangeShelf }) => {
   const getDistinctBooks = (shelf, allBooks) => {
     return allBooks.filter((book) => book.shelf === shelf);
   };
@@ -29,7 +29,10 @@ export const ShelvesPage = ({ shelves, books }) => {
             <div key={shelf} className="bookshelf">
               <h2 className="bookshelf-title">{getShelfTitle(shelf)}</h2>
               <div className="bookshelf-books">
-                <BookList books={getDistinctBooks(shelf, books)} />
+                <BookList
+                  books={getDistinctBooks(shelf, books)}
+                  onChangeShelf={onChangeShelf}
+                />
               </div>
             </div>
           ))}

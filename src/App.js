@@ -18,6 +18,11 @@ function App() {
     setState({ books: booksInShelves, shelves: distinctShelves });
   };
 
+  const changeShelf = async (book, shelf) => {
+    await BooksApi.update(book, shelf);
+    getBooksInShelves();
+  };
+
   const getDistinctShelves = (booksInShelves) => {
     return booksInShelves.reduce((acc, current) => {
       if (acc?.includes(current.shelf)) {
@@ -30,11 +35,20 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/search" element={<SearchPage />} />
+        <Route
+          path="/search"
+          element={<SearchPage onChangeShelf={changeShelf} />}
+        />
 
         <Route
           path="/"
-          element={<ShelvesPage books={state.books} shelves={state.shelves} />}
+          element={
+            <ShelvesPage
+              books={state.books}
+              shelves={state.shelves}
+              onChangeShelf={changeShelf}
+            />
+          }
         />
       </Routes>
     </div>
