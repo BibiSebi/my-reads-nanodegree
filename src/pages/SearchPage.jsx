@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import * as BooksAPI from "../api/BooksAPI";
 import BookList from "../components/BookList";
 
-export const SearchPage = ({ onChangeShelf }) => {
+export const SearchPage = ({ onChangeShelf, booksWithShelves }) => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
@@ -16,7 +16,20 @@ export const SearchPage = ({ onChangeShelf }) => {
       }
 
       const filteredBooks = books.filter((book) => book.imageLinks);
-      setSearchedBooks(filteredBooks);
+      const extendedBooks = mapBookShelf(filteredBooks, booksWithShelves);
+      setSearchedBooks(extendedBooks);
+    });
+  };
+
+  const mapBookShelf = (books, booksInShelves) => {
+    return books.map((book) => {
+      const bookWithShelf = booksInShelves.find(
+        (bookInShelf) => bookInShelf.id === book.id
+      );
+      if (bookWithShelf) {
+        return { ...book, shelf: bookWithShelf.shelf };
+      }
+      return book;
     });
   };
   return (
@@ -36,15 +49,6 @@ export const SearchPage = ({ onChangeShelf }) => {
         {searchedBooks.length > 0 && (
           <BookList books={searchedBooks} onChangeShelf={onChangeShelf} />
         )}
-
-        {/*
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
-            */}
       </div>
       <div className="search-books-results">
         <ol className="books-grid" />

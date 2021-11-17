@@ -37,7 +37,12 @@ function App() {
       <Routes>
         <Route
           path="/search"
-          element={<SearchPage onChangeShelf={changeShelf} />}
+          element={
+            <SearchPage
+              onChangeShelf={changeShelf}
+              booksWithShelves={state.books}
+            />
+          }
         />
 
         <Route
