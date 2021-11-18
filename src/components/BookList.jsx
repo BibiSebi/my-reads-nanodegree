@@ -1,6 +1,6 @@
+import PropTypes from "prop-types";
 import React from "react";
 import Book from "./Book";
-
 const BookList = ({ books, onChangeShelf }) => {
   return (
     <ol className="books-grid">
@@ -13,6 +13,9 @@ const BookList = ({ books, onChangeShelf }) => {
   );
 };
 
-BookList.propTypes = {};
+BookList.propTypes = {
+  books: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
+};
 
 export default BookList;

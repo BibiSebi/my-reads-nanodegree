@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+# My Reads Application
+
+This project is an application consisting of two pages where in the intial page three shelves with books are displayed. These books can be moved from one shelf to another one. There is also another page where a user can search for books and move them to his/her shelves.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Installing Yarn
+
+Read the [Installation Guide](https://yarnpkg.com/en/docs/install) on our website for detailed instructions on how to install Yarn.
+
+## Using Yarn
+
+Read the [Usage Guide](https://yarnpkg.com/en/docs/usage) on our website for detailed instructions on how to use Yarn.
 
 ## Available Scripts
 

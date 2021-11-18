@@ -1,24 +1,28 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as BooksAPI from "../api/BooksAPI";
 import BookList from "../components/BookList";
+import SearchInput from "../components/SearchInput";
 
-export const SearchPage = ({ onChangeShelf, booksWithShelves }) => {
+const SearchPage = ({ onChangeShelf, booksWithShelves }) => {
   const [searchedBooks, setSearchedBooks] = useState([]);
-  const [inputValue, setInputValue] = useState("");
 
   const onChangeInput = (value) => {
-    setInputValue(value);
-    BooksAPI.search(value).then((books) => {
-      if (books.error) {
-        setSearchedBooks([]);
-        return;
-      }
+    if (value) {
+      BooksAPI.search(value).then((books) => {
+        if (books.error) {
+          setSearchedBooks([]);
+          return;
+        }
 
-      const filteredBooks = books.filter((book) => book.imageLinks);
-      const extendedBooks = mapBookShelf(filteredBooks, booksWithShelves);
-      setSearchedBooks(extendedBooks);
-    });
+        const filteredBooks = books.filter((book) => book.imageLinks);
+        const extendedBooks = mapBookShelf(filteredBooks, booksWithShelves);
+        setSearchedBooks(extendedBooks);
+      });
+    } else {
+      setSearchedBooks([]);
+    }
   };
 
   const mapBookShelf = (books, booksInShelves) => {
@@ -38,12 +42,7 @@ export const SearchPage = ({ onChangeShelf, booksWithShelves }) => {
         <Link className="close-search" to="/">
           Close
         </Link>
-        <input
-          type="text"
-          placeholder="Search by title or author"
-          value={inputValue}
-          onChange={(event) => onChangeInput(event.target.value)}
-        />
+        <SearchInput onChange={onChangeInput} />
       </div>
       <div className="search-books-input-wrapper">
         {searchedBooks.length > 0 && (
@@ -55,6 +54,11 @@ export const SearchPage = ({ onChangeShelf, booksWithShelves }) => {
       </div>
     </div>
   );
+};
+
+SearchPage.propTypes = {
+  onChangeShelf: PropTypes.func.isRequired,
+  booksWithShelves: PropTypes.array,
 };
 
 export default SearchPage;
